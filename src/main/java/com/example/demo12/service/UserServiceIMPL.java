@@ -36,7 +36,12 @@ public class UserServiceIMPL implements UserService, UserDetailsService {
             throw new UsernameNotFoundException("This usernamee is not available");
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
+        Collection<Role>roles=user.getRoles();
+        for (Role r:roles)
+        {
+            authorities.add(new SimpleGrantedAuthority(r.getName()));
+        }
+//        user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
 
